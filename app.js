@@ -22,7 +22,10 @@ app.post("/", async (req, res) => {
             res.json("exist");
         } else {
             res.json("not exist");
+
         }
+
+        
     } catch (e) {
         console.error(e);
         res.status(500).json("An error occurred");

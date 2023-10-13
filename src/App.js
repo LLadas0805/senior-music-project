@@ -2,10 +2,10 @@ import React from "react";
 import './App.css';
 import Signup from './Components/login-signup/signup';
 import Login from './Components/login-signup/login';
-import Home from './Components/home-page/home';
+import Home from './Components/home-page/combine-home';
 import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom"; 
 
-import { ChatEngine } from 'react-chat-engine'
+
 
 
 function App() {

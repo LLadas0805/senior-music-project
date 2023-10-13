@@ -55,6 +55,7 @@ function Login() {
             <form action = "POST" >
                 <div className = 'inputs'>
                     <div className = 'input'>
+                        
                         <label htmlFor="useroremail">Email or username</label>
                         <input type="text" id = "useroremail" onChange = {(e)=>{setUserOrEmail(e.target.value)}} placeholder = "Email or username" />
                         

@@ -3,8 +3,8 @@ import {useNavigate, Link} from "react-router-dom"
 import axios from "axios"
 import './login-signup.css'
 import IconLogo from '../Assets/Icons/IconLogo.png'
-
-
+import PasswordHide from '../Assets/Icons/PasswordHide.png'
+import PasswordShown from '../Assets/Icons/PasswordShown.png'
 
 
 function Signup () {
@@ -14,6 +14,13 @@ function Signup () {
     const [user, setUser]=useState('')
     const [email, setEmail]=useState('')
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false);
+   
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+        
+    };
 
     async function submit(e){
         e.preventDefault()
@@ -62,36 +69,53 @@ function Signup () {
                 <div className="inputs">
                 <div className="input">
                     <label htmlFor="username">Choose a display name</label>
-                    <input
-                    type="text"
-                    id="username"
-                    onChange={(e) => {
-                        setUser(e.target.value);
-                    }}
-                    placeholder="Enter a display name"
-                    />
+                    <div className = "input-text">
+                        <input
+                        type="text"
+                        id="username"
+                        onChange={(e) => {
+                            setUser(e.target.value);
+                        }}
+
+                        placeholder="Enter a display name"
+                        required 
+                        />
+                        
+                    </div>
+                   
                 </div>
                 <div className="input">
                     <label htmlFor="email">What's your email?</label>
-                    <input
-                    type="email"
-                    id="email"
-                    onChange={(e) => {
-                        setEmail(e.target.value);
-                    }}
-                    placeholder="Enter your email address"
-                    />
+                    <div className = "input-text">
+                        <input
+                        type="email"
+                        id="email"
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                        }}
+                        placeholder="Enter your email address"
+                        required
+                        />
+                    </div>
                 </div>
                 <div className="input">
                     <label htmlFor="password">Create a password</label>
-                    <input
-                    type="password"
-                    id="password"
-                    onChange={(e) => {
-                        setPassword(e.target.value);
-                    }}
-                    placeholder="Enter a password"
-                    />
+                    <div className = "input-text">
+                        <input
+                        type={showPassword ? 'text' : 'password'}
+                        id="password"
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                        }}
+                        placeholder="Enter a password"
+                        required
+                        />
+                        <button type = "button" 
+                        className="password-button"
+                        onClick={togglePasswordVisibility}>
+                            <img src={showPassword ? PasswordShown : PasswordHide}/>
+                        </button>
+                    </div>
                 </div>
                 </div>
 

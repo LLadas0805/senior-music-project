@@ -1,0 +1,306 @@
+body {
+    background: linear-gradient(#35303a,#18141b ) !important;
+    background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+    height: 100%;
+    
+}
+
+
+
+.custom-card {
+    background-color: #37313f;
+    color: white;
+    width: 100%; /* Allow cards to take up 100% of column width */
+    min-width: 200px; /* Adjust the minimum width for cards as needed */
+    
+    transition: 300ms ease;
+}
+
+.custom-card:hover {
+    background-color: #4e4658;
+}
+
+.card-image {
+    border-radius: 20px;
+    pointer-events: none;
+    
+    
+}
+
+.card-image .card-img img {
+    
+}
+
+.artist-image  {
+    border-radius: 200px;
+    
+    
+}
+
+
+
+
+
+
+.card-body {
+    margin-top: -15px;
+    margin-bottom: 15px;
+    white-space: normal;
+    pointer-events: none;
+  
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 17px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Adjust the number of lines to be shown */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-subtitle {
+    color:#918d97;
+    font-weight: 600;
+    padding-bottom: 5px;
+}
+
+.Sidebar {
+    height: 100vh;
+    width: 250px;
+    background-color: #3d3744;
+    border-radius: 15px;
+    position: fixed;
+    margin: 10px 10px;
+}
+
+
+.search-bar {
+    
+    display: flex;
+    height: 250px;
+
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.form {
+    background-color:#ffffff;
+    height: 50px;
+    width: 400px;
+    
+    color: white !important;
+
+    border-radius: 100px;
+    transition: 150ms ease-in-out;
+    
+}
+
+/* Add styles for smaller screens (e.g., mobile devices) */
+@media (max-width: 768px) {
+    .form {
+        width: 90%; /* Adjust the width as needed for smaller screens */
+    }
+}
+
+.form:focus-within {
+    /* Styles for the input elements when focused */
+    border: none ! important;  /* Add a white border when the input is focused */
+    outline: solid rgb(150, 93, 255) ! important; /* Remove the default outline (blue border) */
+    
+}
+
+.form:focus-within input {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
+
+.form:hover {
+    
+}
+
+.search-results {
+
+}
+
+.search-button {
+    border: none;
+    color: black;
+    background: white;
+    margin-right: 10px;
+}
+
+.search-input {
+    margin-left: 8px;
+}
+
+.search-button:hover {
+    border: none;
+    color: black;
+    background: white;
+}
+
+.search-type-button {
+    margin-right: 1%;
+    height: 40px;
+    padding: 0px 20px 0px 20px;
+    
+    text-align: center;
+    color: white;
+    background: #51495c;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 605;
+    cursor: pointer;
+    transition: 150ms ease;
+}
+
+.search-type-button:hover {
+    
+    
+    background: #61586d;
+   
+    
+    
+}
+
+.search-type-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.active  {
+    color: #51495c;
+    background: white;
+}
+
+.active:hover {
+    color: black;
+    background: white;
+}
+
+.tracklist-item {
+    color: white;
+    display: flex;
+    padding: 5px 5px 5px 5px;
+    border-radius: 5px;
+}
+
+.tracklist-top {
+    display: flex;
+    
+}
+
+.top-artists {
+    color: rgb(255, 255, 255);
+    font-weight: 650;
+}
+
+.tracklist-item:hover {
+    
+    background: #51495c;
+    color: white;
+    
+}
+
+.tracklist-item:hover .album-name,
+.tracklist-item:hover .artist-name,
+.tracklist-item:hover .track-number {
+    color: white;
+}
+
+.track-number {
+    display: flex; /* Add this line */
+    justify-content: center; /* Center text horizontally */
+    text-align: center;
+    align-items: center;
+    width: 4%;
+    
+    color: rgb(209, 209, 209);
+    font-weight: 600;
+    font-size: 16px;
+    
+}
+
+
+.album-head-cover {
+    display: flex; /* Add this line */
+    align-items: center;
+    justify-content: center; /* Center text horizontally */
+    padding-right: 1%;
+    text-align: center
+}
+
+.album-head {
+    width: 40%;
+    display: flex; /* Add this line */
+    color: rgb(209, 209, 209);
+    font-size: 14px;
+    font-weight: 550;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.album-cover {
+    display: flex; /* Add this line */
+    align-items: center;
+    justify-content: center; /* Center text horizontally */
+    padding-right: 1%;
+    text-align: center
+}
+
+.album-cover img {
+    
+    width:45px;
+    height: 45px;
+}
+
+.album-name {
+    width: 40%;
+    display: flex; /* Add this line */
+    color: rgb(209, 209, 209);
+    font-size: 14px;
+    font-weight: 550;
+    align-items: center;
+}
+
+.name-artist {
+    display: block;
+    /* Add any other styling you need, e.g., padding, margin, etc. */
+    width: 55%;
+  }
+  
+  .song-name, .artist-name {
+    display: block;
+    /* Additional styling for each element */
+  }
+
+.artist-name {
+    font-size: 14px;
+    color: rgb(158, 158, 158);
+    font-weight: 550;
+}
+
+.song-length {
+    display: flex; /* Add this line */
+    align-items: center;
+    color: rgb(209, 209, 209);
+    width: 4%;
+}
+
+.separator {
+    color: rgb(209, 209, 209)
+}
