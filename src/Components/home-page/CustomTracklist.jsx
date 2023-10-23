@@ -27,8 +27,10 @@ function CustomTracklist({ items }) {
             </div>
             <span className="album-name">Album</span>
             <span className="track-number">Duration</span>
+            
           </div>
           <hr className="separator" />
+          
           {items.map((item, index) => (
             <Col key={item.id} xs={12}>
               <div className="tracklist-item">

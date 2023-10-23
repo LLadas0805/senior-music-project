@@ -34,10 +34,7 @@ function Home() {
        
     ];
 
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
+    
     useEffect(() => {
         // Fetch access token once during component initialization
         fetchAccessToken();
@@ -172,14 +169,16 @@ function Home() {
                     <Row className="">
                         {searchType === "all" && (
                             <>
-                            
-                            <CustomCardResult items={artists.slice(0, 4)} subtitleType="artist" all="true" />
-                            <CustomCardResult items={albums.slice(0, 4)} subtitleType="album" all="true"/>
-                            <CustomCardResult items={songs.slice(0, 4)} subtitleType="song" all="true"/>
+                            <div className = "caption-div"><p className = "caption">Top Artists</p></div>
+                            <CustomCardResult items={artists.slice(0, 4)} subtitleType="artist"  />
+                            <div className = "caption-div"><p className = "caption">Top Albums</p></div>
+                            <CustomCardResult items={albums.slice(0, 4)} subtitleType="album" />
+                            <div className = "caption-div"><p className = "caption">Top Songs</p></div>
+                            <CustomCardResult items={songs.slice(0, 4)} subtitleType="song" />
                             </>
                         )}
-                        {searchType === "artist" && <CustomCardResult items={artists} subtitleType="artist" all="false"/>}
-                        {searchType === "album" && <CustomCardResult items={albums} subtitleType="album" all="false" />}
+                        {searchType === "artist" && <CustomCardResult items={artists} subtitleType="artist" />}
+                        {searchType === "album" && <CustomCardResult items={albums} subtitleType="album"  />}
                         {searchType === "track" && <CustomTracklist items={songs} />}
                     </Row>
                     

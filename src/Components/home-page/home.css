@@ -1,10 +1,24 @@
 body {
-    background: linear-gradient(#35303a,#18141b ) !important;
+    background: #201d24 ;
     background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+    background-attachment: fixed;
+    background-size: cover;
     height: 100%;
     
+}
+
+.caption-div {
+    display: flex;
+    align-items: center; /* Center the text vertically within the .caption-div */
+    justify-content: flex-start;
+}
+
+.caption {
+    color: white;
+    font-weight: 650;
+    font-size: 26px;
+    width: fit-content;
+    margin: auto 0; /* Center the text vertically */
 }
 
 
@@ -14,6 +28,7 @@ body {
     color: white;
     width: 100%; /* Allow cards to take up 100% of column width */
     min-width: 200px; /* Adjust the minimum width for cards as needed */
+    height: 95%;
     
     transition: 300ms ease;
 }
@@ -25,6 +40,10 @@ body {
 .card-image {
     border-radius: 20px;
     pointer-events: none;
+    max-height: 300px; /* Adjust the image height as needed */
+    object-fit: cover;
+    width: 100%;
+    padding-bottom: 100%;
     
     
 }
@@ -34,7 +53,9 @@ body {
 }
 
 .artist-image  {
-    border-radius: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    width: 100%; /* Maintain aspect ratio */
     
     
 }
@@ -49,6 +70,9 @@ body {
     margin-bottom: 15px;
     white-space: normal;
     pointer-events: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   
 }
 
@@ -68,23 +92,39 @@ body {
 }
 
 .Sidebar {
-    height: 100vh;
-    width: 250px;
-    background-color: #3d3744;
+    height: 100%;
+    width: 15%;
+    background-color: #2f2a35;
     border-radius: 15px;
     position: fixed;
     margin: 10px 10px;
+    
+}
+
+.homepage {
+    
 }
 
 
 .search-bar {
-    
+    top: 0;
+    z-index: 1000;
+    width: 100%;
     display: flex;
-    height: 250px;
-
+    height: 200px;
+    background-color: #201d24;
+    position: fixed;
+    left: 0;
+    right: 0;
     justify-content: center;
     align-items: center;
-    
+    margin: 0 auto; /* Center horizontally */
+}
+
+
+
+.search-results {
+    margin-top: 200px;
 }
 
 .form {
@@ -120,13 +160,7 @@ body {
 
 
 
-.form:hover {
-    
-}
 
-.search-results {
-
-}
 
 .search-button {
     border: none;
@@ -198,7 +232,12 @@ body {
 }
 
 .tracklist-top {
+    top: 18%; /* You can adjust the top value to control where it is fixed */
+    z-index: 1000; /* Adjust the z-index to ensure it's on top of other content */
+    width: 100%; /* It takes the full width of the viewport */
     display: flex;
+    position: sticky;
+    left: 15%; /* Center horizontally */
     
 }
 

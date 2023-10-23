@@ -5,7 +5,9 @@ function CombineHome() {
     return(
         <div>
           
-            <Home/>
+            <div><Home/></div>
+            
+        
         </div>
     )
 }
