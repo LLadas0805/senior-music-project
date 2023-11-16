@@ -11,6 +11,10 @@ body {
     display: flex;
     align-items: center; /* Center the text vertically within the .caption-div */
     justify-content: flex-start;
+    padding-left: calc(var(--bs-gutter-x) * 1);
+    padding-right: calc(var(--bs-gutter-x) * 1);
+    margin-bottom: 10px;
+   
 }
 
 .caption {
@@ -24,6 +28,7 @@ body {
 
 
 .custom-card {
+    
     background-color: #37313f;
     color: white;
     width: 100%; /* Allow cards to take up 100% of column width */
@@ -37,28 +42,37 @@ body {
     background-color: #4e4658;
 }
 
-.card-image {
-    border-radius: 20px;
-    pointer-events: none;
-    max-height: 300px; /* Adjust the image height as needed */
-    object-fit: cover;
+.image-container {
+    position: relative;
     width: 100%;
-    padding-bottom: 100%;
     
-    
+    overflow: hidden;
+    padding-bottom: 100%; /* This creates a square container */
 }
 
-.card-image .card-img img {
+
+.card-image {
     
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 7%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+    display: block; /* Ensure the image is treated as a block element */
+    
+    
+
 }
 
-.artist-image  {
-    border-radius: 50%;
-    object-fit: cover;
-    width: 100%; /* Maintain aspect ratio */
-    
-    
+.artist-image {
+    border-radius: 100%;
 }
+
+
+
+
 
 
 
@@ -92,15 +106,22 @@ body {
 }
 
 .Sidebar {
-    height: 100%;
+    height: 97%;
     width: 15%;
     background-color: #2f2a35;
     border-radius: 15px;
     position: fixed;
-    margin: 10px 10px;
+    margin: 10px 20px 0px 10px;
+    top: 0;
+    bottom:0;
+    
     
 }
 
+
+.combine-home {
+    display: flex;
+}
 .homepage {
     
 }
@@ -125,17 +146,28 @@ body {
 
 .search-results {
     margin-top: 200px;
+    height: fit-content;
+   
+   
+}
+
+.search-rows {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .form {
     background-color:#ffffff;
-    height: 50px;
+    height: 55px;
     width: 400px;
     
     color: white !important;
 
     border-radius: 100px;
     transition: 150ms ease-in-out;
+
+    
     
 }
 
@@ -147,10 +179,10 @@ body {
 }
 
 .form:focus-within {
+    
     /* Styles for the input elements when focused */
     border: none ! important;  /* Add a white border when the input is focused */
-    outline: solid rgb(150, 93, 255) ! important; /* Remove the default outline (blue border) */
-    
+    outline: solid rgb(150, 93, 255)! important; 
 }
 
 .form:focus-within input {
@@ -171,6 +203,8 @@ body {
 
 .search-input {
     margin-left: 8px;
+    
+    
 }
 
 .search-button:hover {
@@ -209,9 +243,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 10px;
+   
     width: 100%;
-    padding-bottom: 10px;
+    
 }
 
 .active  {
@@ -228,7 +262,7 @@ body {
     color: white;
     display: flex;
     padding: 5px 5px 5px 5px;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .tracklist-top {

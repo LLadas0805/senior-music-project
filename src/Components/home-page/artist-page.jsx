@@ -67,7 +67,7 @@ function ArtistPage() {
 
     return (
         <div>
-            <Container className="pt-4">
+            <div className="">
                 {loading ? (
                     <p>Loading artist information...</p>
                 ) : (
@@ -110,7 +110,7 @@ function ArtistPage() {
                     
 
                 )}
-            </Container>
+            </div>
         </div>
     );
 }

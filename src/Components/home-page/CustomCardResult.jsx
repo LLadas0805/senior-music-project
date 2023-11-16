@@ -2,6 +2,8 @@ import React from "react";
 import { Row, Card } from "react-bootstrap";
 import { Link } from 'react-router-dom'; 
 import UserIcon from '../Assets/Icons/UserIcon.png'
+import UserProfileIcon from '../Assets/Icons/UserProfileIcon.png'
+import GenreIcon from '../Assets/Icons/GenreIcon.png'
 
 const linkStyles = {
   textDecoration: 'none', // Remove underline
@@ -14,13 +16,16 @@ function CardResult({ items, subtitleType }) {
       {items.map((item, i) => (
         <div className="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" key={i}>
           <Link to={generateLinkTo(item)} style={linkStyles}>
-            <Card className="my-2 custom-card">
-            <Card.Img
-                src={subtitleType === "artist" || subtitleType === "album" ? item.images[0]?.url || UserIcon : item.album.images[0]?.url || UserIcon}
-                className={`p-3 card-image${subtitleType === 'artist' ? ' artist-image' : ''}`}
-            />
+            <Card className=" custom-card">
+              <div className = " image-container">
+                <img
+                    src={subtitleType === "user" ? UserProfileIcon : subtitleType === "genre" ? GenreIcon: 
+                      (subtitleType === "artist" || subtitleType === "album" || subtitleType === "playlist" ? item.images[0]?.url : item.album.images[0]?.url) || UserIcon}
+                    className={`p-3 card-image${subtitleType === 'artist' || subtitleType ==='user' ? ' artist-image' : ''}`}
+                />
+              </div>
               <Card.Body className="card-body">
-                <Card.Title className="card-title">{item.name}</Card.Title>
+                <Card.Title className="card-title">{item.name || item.username || item.charAt(0).toUpperCase() + item.slice(1)}</Card.Title>
                 <Card.Subtitle className="card-subtitle">
                   {getSubtitle(item, subtitleType)}
                 </Card.Subtitle>
@@ -52,7 +57,18 @@ function getSubtitle(item, subtitleType) {
       return `${new Date(item.release_date).getFullYear()} • ${item.artists
         .map((artist) => artist.name)
         .join(", ")}`;
-    } else {
+    } else if (subtitleType === "song") {
+      return `${new Date(item.album.release_date).getFullYear()} • ${item.artists
+        .map((artist) => artist.name)
+        .join(", ")}`;
+    } else if (subtitleType === "user") {
+      return "User";
+    } else if (subtitleType === "playlist") {
+      return "Playlist";
+    } else if (subtitleType === "genre") {
+      return "Genre & Mood";
+    }
+      else {
       return "";
     }
 

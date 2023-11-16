@@ -38,6 +38,7 @@ body {
     max-width: 200px;
     display: flex;
     margin: auto;
+    
     height: auto;
     flex-direction: row;
     padding-bottom: 25px;
@@ -53,6 +54,7 @@ body {
     font-size: 32px;
     font-weight: 900;
     letter-spacing: -0.03em;
+    color: white;
     
 }
 
@@ -109,6 +111,7 @@ body {
 }
 
 .input-text {
+    background-color: white;
     border: solid 1px rgb(153, 153, 153);
     display: flex;
     align-items: center;
@@ -164,7 +167,7 @@ body {
     
     border: none;
     
-    width:90%;
+    width:100%;
 
     font-weight: 10000px;
     
@@ -175,8 +178,8 @@ body {
     line-height: 1;
     padding: 10px 10px;
 
-    
-    background-color: transparent;
+    border-radius: 5px;
+    background-color: white;
     
     
 
@@ -198,9 +201,9 @@ body {
 }
 
 .input-text:focus-within {
-    outline: none;
+    outline: solid 2px rgb(150, 93, 255);
     border-color: rgb(165, 117, 255);
-    box-shadow: -1.25px -1.25px 0 0 rgb(165, 117, 255);
+    
 }
 
 label {
@@ -210,7 +213,7 @@ label {
     font-size: 14px;
     font-weight: 650;
     letter-spacing: -0.01em;
-    
+    color: rgb(217, 217, 218);
     display: flex;
     
     
@@ -286,5 +289,6 @@ label {
 
 .have-account {
     text-align: center;
+    color: white;
     
 }

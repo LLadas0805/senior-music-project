@@ -12,6 +12,7 @@ function Signup () {
     const history=useNavigate();
 
     const [user, setUser]=useState('')
+    const [account, setAccount]=useState('')
     const [email, setEmail]=useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +31,7 @@ function Signup () {
         try {
 
             await axios.post("http://localhost:3000/signup", {
-                user, email, password
+                user, account, email, password
             })
             .then(res=>{
                 if(res.data==="exist"){
@@ -78,6 +79,23 @@ function Signup () {
                         }}
 
                         placeholder="Enter a display name"
+                        required 
+                        />
+                        
+                    </div>
+                   
+                </div>
+                <div className="input">
+                    <label htmlFor="accountname">Choose an account name</label>
+                    <div className = "input-text">
+                        <input
+                        type="text"
+                        id="accountname"
+                        onChange={(e) => {
+                            setAccount(e.target.value);
+                        }}
+
+                        placeholder="Enter an account name"
                         required 
                         />
                         

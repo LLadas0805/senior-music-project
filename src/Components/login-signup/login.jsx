@@ -26,6 +26,8 @@ function Login() {
                     history("/home", {state:{id:useroremail}})
                 } else if(res.data==="not exist"){
                     alert("User is not signed up")
+                } else if(res.data==="incorrect"){
+                    alert("Wrong Credentials")
                 }
             })
             .catch(e=> {
@@ -52,25 +54,32 @@ function Login() {
                      
                     </div>
             </div>
-            <form action = "POST" >
-                <div className = 'inputs'>
-                    <div className = 'input'>
+            
+
+            <form action="POST">
+                <div className="inputs">
+                <div className="input">
+                    <label htmlFor="useroremail">Email or username</label>
+                    <div className = "input-text">
                         
-                        <label htmlFor="useroremail">Email or username</label>
                         <input type="text" id = "useroremail" onChange = {(e)=>{setUserOrEmail(e.target.value)}} placeholder = "Email or username" />
                         
                     </div>
-                    <div className = 'input'>
-                        <label htmlFor="password">Password</label>
-                        <input type="password"  id = "password" onChange = {(e)=>{setPassword(e.target.value)}} placeholder = "Password"/>
-                        
-                    </div>
+                   
                 </div>
+                <div className="input">
+                    <label htmlFor="password">Password</label>
+                    <div className = "input-text">
+                        <input type="password"  id = "password" onChange = {(e)=>{setPassword(e.target.value)}} placeholder = "Password"/>
+                    </div>
+                   
+                </div>
+                </div>
+
                 
                 <div className = "submit-container" >
                         <button type = "submit" onClick={submit} className = "submit">Log In</button>
                 </div>
-
             </form>
             <div className = "have-account">
                 <p> 

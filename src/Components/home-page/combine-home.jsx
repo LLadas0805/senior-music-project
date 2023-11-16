@@ -3,9 +3,10 @@ import Sidebar from './sidebar'
 
 function CombineHome() {
     return(
-        <div>
-          
+        <div className = "">
+            
             <div><Home/></div>
+
             
         
         </div>
