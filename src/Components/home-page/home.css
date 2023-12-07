@@ -29,11 +29,12 @@ body {
 
 .custom-card {
     
-    background-color: #37313f;
+    background-color: #2f2c368c;
     color: white;
     width: 100%; /* Allow cards to take up 100% of column width */
     min-width: 200px; /* Adjust the minimum width for cards as needed */
     height: 95%;
+   
     
     transition: 300ms ease;
 }
@@ -56,7 +57,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    border-radius: 7%;
+    border-radius: 5px;
     width: 100%;
     height: 100%;
     object-fit: cover; /* Maintain aspect ratio and cover the container */
@@ -93,30 +94,22 @@ body {
 .card-title {
     font-weight: 700;
     font-size: 17px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1; /* Adjust the number of lines to be shown */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+
+   
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Show an ellipsis for truncated text */
 }
 
 .card-subtitle {
     color:#918d97;
     font-weight: 600;
     padding-bottom: 5px;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Show an ellipsis for truncated text */
 }
 
-.Sidebar {
-    height: 97%;
-    width: 15%;
-    background-color: #2f2a35;
-    border-radius: 15px;
-    position: fixed;
-    margin: 10px 20px 0px 10px;
-    top: 0;
-    bottom:0;
-    
-    
-}
 
 
 .combine-home {
@@ -130,23 +123,36 @@ body {
 .search-bar {
     top: 0;
     z-index: 1000;
-    width: 100%;
+    width: 100%; /* Take up entire parent's width */
     display: flex;
+    flex-direction: column;
     height: 200px;
-    background-color: #201d24;
-    position: fixed;
+    background: linear-gradient(#492a72,#2f1f44, #2e2638f3);
+    position: sticky; /* Use absolute positioning */
     left: 0;
     right: 0;
     justify-content: center;
     align-items: center;
     margin: 0 auto; /* Center horizontally */
+   
+    
+
+    
+    
 }
 
 
 
+
+
 .search-results {
-    margin-top: 200px;
+
+    
+    margin-top: 50px;
     height: fit-content;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    
    
    
 }
@@ -214,7 +220,7 @@ body {
 }
 
 .search-type-button {
-    margin-right: 1%;
+    margin-right: 10px;
     height: 40px;
     padding: 0px 20px 0px 20px;
     
@@ -243,7 +249,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-   
+    
     width: 100%;
     
 }
@@ -270,8 +276,8 @@ body {
     z-index: 1000; /* Adjust the z-index to ensure it's on top of other content */
     width: 100%; /* It takes the full width of the viewport */
     display: flex;
-    position: sticky;
-    left: 15%; /* Center horizontally */
+ 
+   
     
 }
 
@@ -282,7 +288,7 @@ body {
 
 .tracklist-item:hover {
     
-    background: #51495c;
+    background: rgba(218, 218, 218, 0.164);
     color: white;
     
 }
@@ -332,13 +338,15 @@ body {
     align-items: center;
     justify-content: center; /* Center text horizontally */
     padding-right: 1%;
-    text-align: center
+    text-align: center;
+    
 }
 
 .album-cover img {
     
     width:45px;
     height: 45px;
+    border-radius: 5px;
 }
 
 .album-name {
@@ -377,3 +385,54 @@ body {
 .separator {
     color: rgb(209, 209, 209)
 }
+
+
+.row-card {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: nowrap; /* Prevent items from wrapping */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+    scrollbar-width: none; /* Hides scrollbar for Firefox */
+  
+    /* Optional: Style scrollbar for webkit-based browsers */
+    /* For example: */
+    /* scrollbar-width: thin; */
+    /* scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1); */
+  }
+  
+  /* Optional: Style scrollbar for webkit-based browsers */
+  .row-card::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
+    /* Add other scrollbar styles here if needed */
+  }
+
+
+.disc-number {
+    display: flex;
+    align-items: center;
+
+    margin-top: 30px;
+    margin-bottom: 30px;
+    
+  }
+
+  .disc-info {
+    display: flex;
+    align-items: center;
+    color: rgb(209, 209, 209);
+    font-weight: 600;
+    font-size: 18px;
+  
+    height: 20px;
+  }
+  
+  .disc-icon {
+    width: 20px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 25px; /* Adjust spacing between icon and text */
+    filter: invert(20%); /* Change color */
+
+    margin-left: 1.75%;
+  }
+
+ 

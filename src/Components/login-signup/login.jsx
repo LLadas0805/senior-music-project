@@ -47,10 +47,10 @@ function Login() {
             <div className = 'header'>
                 <div className = 'logo'>
                     <img src={IconLogo} width = "100" height = "100"  alt=""/>
-                    <div className = 'logotext'>Harmony  </div>
+                    <div className = 'logotext'>Senior Project  </div>
                 </div>
                 <div className = 'caption'>
-                        <div className = 'text'>Log in to Harmony</div>
+                        <div className = 'text'>Log in to Senior Project</div>
                      
                     </div>
             </div>
@@ -59,10 +59,10 @@ function Login() {
             <form action="POST">
                 <div className="inputs">
                 <div className="input">
-                    <label htmlFor="useroremail">Email or username</label>
+                    <label htmlFor="useroremail">Account Name</label>
                     <div className = "input-text">
                         
-                        <input type="text" id = "useroremail" onChange = {(e)=>{setUserOrEmail(e.target.value)}} placeholder = "Email or username" />
+                        <input type="text" id = "useroremail" onChange = {(e)=>{setUserOrEmail(e.target.value)}} placeholder = "Account Name" />
                         
                     </div>
                    

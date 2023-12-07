@@ -10,17 +10,18 @@ const linkStyles = {
   color: 'inherit', // Inherit the color from the parent
 };
 
-function CardResult({ items, subtitleType }) {
+function CardResult({ items, subtitleType, singleRow = false}) {
+  
   return (
-    <Row className="">
+    <Row className={`${singleRow === true ? '' : ''}`}>
       {items.map((item, i) => (
-        <div className="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" key={i}>
-          <Link to={generateLinkTo(item)} style={linkStyles}>
+        <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 " key={i}>
+          <Link to={generateLinkTo(item, subtitleType)} style={linkStyles}>
             <Card className=" custom-card">
               <div className = " image-container">
                 <img
                     src={subtitleType === "user" ? UserProfileIcon : subtitleType === "genre" ? GenreIcon: 
-                      (subtitleType === "artist" || subtitleType === "album" || subtitleType === "playlist" ? item.images[0]?.url : item.album.images[0]?.url) || UserIcon}
+                      (subtitleType === "artist" || subtitleType === "album" || subtitleType === "album-artist" || subtitleType === "playlist" ? item.images[0]?.url : item.album.images[0]?.url) || UserIcon}
                     className={`p-3 card-image${subtitleType === 'artist' || subtitleType ==='user' ? ' artist-image' : ''}`}
                 />
               </div>
@@ -38,13 +39,21 @@ function CardResult({ items, subtitleType }) {
   );
 }
 
-function generateLinkTo(item) {
+function generateLinkTo(item, subtitleType) {
   // Logic to determine the link based on item type
   if (item.type === "artist") {
     return `/artist/${item.id}`;
   } else if (item.type === "album") {
     return `/album/${item.id}`;
-  } 
+  } else if (item.type === "playlist") {
+    return `/playlist/${item.id}`;
+  } else if (item.type === "genre") {
+    return `/genre/${item.name}`;
+  } else if (item.accountname) {
+    return `/user/${item._id}`;
+  } else if (subtitleType === 'genre') {
+    return `/genre/${item}`;
+  }
   // Handle other cases if needed
   return "/";
 }
@@ -66,10 +75,11 @@ function getSubtitle(item, subtitleType) {
     } else if (subtitleType === "playlist") {
       return "Playlist";
     } else if (subtitleType === "genre") {
-      return "Genre & Mood";
-    }
-      else {
-      return "";
+      return "Genre & Mood"; 
+    } else if (subtitleType === "album-artist") {
+      return item.album_type.charAt(0).toUpperCase() + item.album_type.slice(1);
+    } else {
+      return item.type || "";
     }
 
       

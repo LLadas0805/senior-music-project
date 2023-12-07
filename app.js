@@ -1,46 +1,52 @@
-const express = require("express")
+const express = require("express");
 const session = require('express-session');
-const collection = require("./mongo")
-const cors = require("cors")
-const app = express()
+const MongoDBStore = require('connect-mongodb-session')(session);
+const collection = require("./mongo"); // Assuming 'collection' is your MongoDB collection model
+const cors = require("cors");
 const bcrypt = require('bcryptjs');
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(cors())
 
+const app = express();
+const mongoUrl = "mongodb+srv://lladas:Chippie_0805@cluster0.5zzqisk.mongodb.net/?retryWrites=true&w=majority";
 
+const store = new MongoDBStore({
+    uri: mongoUrl,
+    collection: 'sessions'
+});
 
-app.get("/", cors(), (req, res)=>{
+store.on('error', function (error) {
+    console.log(error);
+});
 
-})
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Add express-session middleware
+// Session setup
 app.use(session({
     secret: 'lukeadmin',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    store: store,
     cookie: { secure: false }
 }));
 
-
-
+// Session handling middleware
 app.use((req, res, next) => {
-    
+  
     if (req.session.user) {
-        console.log("Hello!");
         res.locals.user = {
             id: req.session.user._id,
             accountname: req.session.user.accountname
-        }
+        };
     }
-    next()
-})
+    next();
+});
 
-
-    
-app.post("/home", async (req, res) => {
+// Routes
+app.post("/search", async (req, res) => {
     const { user } = req.body;
-    console.log(user);
+   
 
     try {
         
@@ -54,28 +60,46 @@ app.post("/home", async (req, res) => {
     }
 });
 
-
-  
-
-
-
-
-app.post("/", async (req, res) => {
-    const { useroremail, password } = req.body;
+app.post("/user", async (req, res) => {
+    const { id } = req.body;
+   
+   
 
     try {
-        const checkEmail = await collection.findOne({ email: { $regex: new RegExp(`^${useroremail}$`, 'i') } });
+        
+        const checkusername = await collection.findOne({ _id: id });
+      
+        res.json(checkusername);                                                    
+
+        
+    } catch (e) {
+        console.error(e);
+        res.status(500).json("An error occurred");
+    }
+});
+
+app.post("/", async (req, res) => {
+    
+    const { useroremail, password } = req.body;
+  
+    
+
+    try {
+
         
         const checkAccount = await collection.findOne({ accountname: { $regex: new RegExp(useroremail, 'i') } });
      
-        if (checkEmail || checkAccount) {
-            console.log("true")
-            const user = checkEmail || checkAccount;
+        if (checkAccount) {
+          
+            const account = checkAccount;
+          
 
             // Compare the provided password with the stored hashed password
-            if (bcrypt.compareSync(password, user.password)) {
+            if (bcrypt.compareSync(password, account.password)) {
                 // Passwords match
-                req.session.user = user;
+                req.session.user = checkAccount;
+                req.session.save()
+                
                 res.json("exist");
             } else {
                 // Passwords do not match
@@ -96,40 +120,74 @@ app.post("/", async (req, res) => {
     }
 });
 
+function validatePassword(password) {
+     // Regular expressions to match at least one number and one special character
+     const numberRegex = /[0-9]/;
+     const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+   
+     // Check for minimum length
+     const isLengthValid = password.length >= 8;
+   
+     // Check if the password contains at least one number and one special character
+     const hasNumber = numberRegex.test(password);
+     const hasSpecialChar = specialCharRegex.test(password);
+   
+     // Check all conditions
+     return !!(isLengthValid && hasNumber && hasSpecialChar);
+}
+
 app.post("/signup", async (req, res) => {
-    console.log("hello")
-    console.log(req.body)
-    const { user, account, email, password } = req.body;
+   
+  
+    const { user, account, password } = req.body;
+    
 
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
+    if (!validatePassword(password)) {
+        res.json("invalid password");
+    } else {
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
 
-    const data = {
-        username: user,
-        accountname: account,
-        email: email,
-        password: hash
-    }
-
-    try {
-        const checkemail = await collection.findOne({ email: email });
-        const checkaccount = await collection.findOne({ account: account });
-        if (checkemail || checkaccount) {
-            res.json("exist");
-        } else {
-
-            
-            req.session.user = user;
-            await collection.insertMany([data]);
-            res.json("not exist");
+        const data = {
+            username: user,
+            accountname: account,
+            password: hash
         }
-    } catch (e) {
-        console.error(e);
-        res.status(500).json("An error occurred");
+
+        try {
+            const checkaccount = await collection.findOne({ account: account });
+            if (checkaccount) {
+                res.json("exist");
+            } else {
+
+                
+                
+                const insertedUser = await collection.insertOne(data); // Insert the user data
+                req.session.user = insertedUser.ops[0]; // Set req.session.user with the inserted user
+                req.session.save(); // Save the session
+                res.json("not exist");
+            }
+        } catch (e) {
+            console.error(e);
+            res.status(500).json("An error occurred");
+        }
     }
 });
 
-app.listen(3000, ()=>{
-    console.log("port connected")
-})
+app.get("/home", async (req, res) => {
+    console.log('hello', req.session.user);
+    if (req.session.user) {
+        res.json(req.session.user);
+    } else {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+});
+
+// Server listening
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+
 

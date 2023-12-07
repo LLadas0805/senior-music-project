@@ -13,7 +13,6 @@ function Signup () {
 
     const [user, setUser]=useState('')
     const [account, setAccount]=useState('')
-    const [email, setEmail]=useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
    
@@ -31,7 +30,7 @@ function Signup () {
         try {
 
             await axios.post("http://localhost:3000/signup", {
-                user, account, email, password
+                user, account, password
             })
             .then(res=>{
                 if(res.data==="exist"){
@@ -40,6 +39,8 @@ function Signup () {
                 } else if(res.data==="not exist"){
                     console.log("Hello")
                     history("/home", {state:{id:user}})
+                } else if (res.data === "invalid password") {
+                    alert("Please make sure password is at least 8 characters and has one special character and number!");
                 }
             })
             .catch(e=> {
@@ -60,10 +61,10 @@ function Signup () {
             <div className="header text-center">
                 <div className="logo">
                 <img src={IconLogo} width="100" height="100" alt="" />
-                <div className="logotext">Harmony</div>
+                <div className="logotext">Senior Project</div>
                 </div>
                 <div className="caption">
-                <div className="text">Sign up for a world of music.</div>
+                <div className="text">Sign up for Senior Project.</div>
                 </div>
             </div>
             <form action="POST">
@@ -101,20 +102,6 @@ function Signup () {
                         
                     </div>
                    
-                </div>
-                <div className="input">
-                    <label htmlFor="email">What's your email?</label>
-                    <div className = "input-text">
-                        <input
-                        type="email"
-                        id="email"
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                        }}
-                        placeholder="Enter your email address"
-                        required
-                        />
-                    </div>
                 </div>
                 <div className="input">
                     <label htmlFor="password">Create a password</label>
@@ -156,5 +143,7 @@ function Signup () {
        
     )
 }
+
+
 
 export default Signup
