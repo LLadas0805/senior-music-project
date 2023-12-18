@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, NavLink, Route, Switch } from 'react-router-dom';
+import { useParams, NavLink, Route, Switch , Link} from 'react-router-dom';
 import { Container } from "react-bootstrap";
 import UserIcon from '../Assets/Icons/UserIcon.png';
 import './profile.css'
@@ -10,6 +10,10 @@ import CustomCardResult from "./CustomCardResult.jsx";
 import CustomTracklist from "./CustomTracklist.jsx"
 import Genres from "./genres.json";
 import Loading from "./loading.jsx"
+import NotFound from "./not-found.jsx"
+
+
+
 
 
 
@@ -32,6 +36,11 @@ function ArtistPage() {
     const [gradientString, setGradientString] = useState('');
     const [bodyGradient, setBodyGradient] = useState('');
     const [activeTab, setActiveTab] = useState('Overview');
+
+    const linkStyles = {
+        textDecoration: 'none', // Remove underline
+        color: 'inherit', // Inherit the color from the parent
+    };
 
     
 
@@ -70,6 +79,7 @@ function ArtistPage() {
             // Fetch access token once during component initialization
             setLoading(true);
             const token = await fetchAccessToken();
+            setActiveTab('Overview');
             setAccessToken(token);
            
             // Fetch artist data
@@ -132,140 +142,130 @@ function ArtistPage() {
             console.error('Error searching:', error);
         }
 
-        return {};
+        return [];
     }
 
 
 
     return (
-        <div>
-            <div className="page-body">
-                {loading ? (
-                    <Loading/>
-                ) : (
-                    <div >
-                        <ColorExtractor
-                            src={artistResults.images?.[0]?.url || UserIcon}
-                            getColors={handleGetColors}
-                        />
-                        <div className="profile-head" style={{ background: gradientString }}>
-                            <div className="column-left">
-                                <div className="artist-image-container">
-                                    <img src={artistResults.images?.[0]?.url || UserIcon} className="artist-image profile-image mb-3" />
-                                </div>
+        <div className="page-body">
+            {loading ? (
+                <Loading />
+            ) : artistResults.length === 0 ? (
+                <NotFound />
+            ) : (
+                <div>
+                    {/* Profile Header */}
+                    <ColorExtractor src={artistResults.images?.[0]?.url || UserIcon} getColors={handleGetColors} />
+                    <div className="profile-head" style={{ background: gradientString }}>
+                        {/* Left Column */}
+                        <div className="column-left">
+                            <div className="artist-image-container">
+                                <img src={artistResults.images?.[0]?.url || UserIcon} className="artist-image profile-image mb-3" />
                             </div>
-                            <div className="column-right">
-                                <div className = "profile-name">
-                                    <h1 className="profile-caption">{artistResults.name}</h1>
-                                </div>
-                                <div>
-                                    <h1 className="caption  type-caption ">{artistResults.type.charAt(0).toUpperCase() 
-                                    + artistResults.type.slice(1)}</h1>
-                                </div>
-
-                                <div>
-                                    {artistResults.genres && artistResults.genres.length > 0 ? (
+                        </div>
+    
+                        {/* Right Column */}
+                        <div className="column-right">
+                            <div className="profile-name">
+                                <h1 className="profile-caption">{artistResults.name}</h1>
+                            </div>
+                            <div>
+                                <h1 className="caption type-caption ">
+                                    {artistResults.type.charAt(0).toUpperCase() + artistResults.type.slice(1)}
+                                </h1>
+                            </div>
+    
+                            <div>
+                                {artistResults.genres && artistResults.genres.length > 0 ? (
                                     <div>
-                                        
                                         <div className="genre-list">
-                                        {artistResults.genres.map((genre, index) => (
-                                            <a key={index}  className="genre-link">
-                                            {genre}
-                                            </a>
-                                        ))}
+                                            {artistResults.genres.map((genre, index) => (
+                                                <a key={index} className="genre-link">
+                                                    {genre}
+                                                </a>
+                                            ))}
                                         </div>
                                     </div>
-                                    ) : (
+                                ) : (
                                     <p className="genre-link">No genres found for this artist.</p>
-                                    )}
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <div className = "profile-body" style ={{background: bodyGradient}}>
-                            <div className = "profile-body-expand">
-
-                                <div className = "top-songs top-tabs pb-3 pt-3">
-                                    <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Overview' ? 'active-profile' : ''}`} 
-                                        onClick={() => handleTabClick('Overview')}>Overview</h1>
-                                    <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Recommended' ? 'active-profile' : ''}`} 
-                                        onClick={() => handleTabClick('Recommended')}>Recommended</h1>
-                                    <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Stats' ? 'active-profile' : ''}`} 
-                                        onClick={() => handleTabClick('Stats')}>Stats</h1>
-       
-                                </div>
-
-
-
-
-                                     
-
-
-
-                                {activeTab === 'Overview' && (
-                                    // Content related to Overview tab
-                                    <div className="content-overview">
-                                        <div className = "top-songs pb-5 pt-3">
-                                            <h1 className = "caption profile-altsubcaption pb-3">Popular</h1>
-                                            <CustomTracklist items = {artistTracks.tracks} showTracklistTop = {false}/>
-                                        
-
-                                        </div>
-
-                                        <div className = "top-songs pb-3">
-                                            <h1 className = "caption profile-altsubcaption pb-3">Discography</h1>
-                                            <CustomCardResult items = {artistAlbums.items} subtitleType="album-artist" singleRow = {true} />
-                                            
-                                        </div>
-
-
-                                        <div className = "top-songs pb-3">
-                                            <h1 className = "caption profile-altsubcaption pb-3">Appears on</h1>
-                                            <CustomCardResult items = {appearsOn.items} subtitleType="album-artist" singleRow = {true} />
-                                        </div>  
-                                    </div>
-                                )}
-
-                                {activeTab === 'Recommended' && (
-                                    // Content related to Recommended tab
-                                    <div className="content-recommended">
-                                        <div className = "top-songs pb-3 pt-3">
-                                            <h1 className = "caption profile-altsubcaption pb-3">Fans also like</h1>
-                                            <CustomCardResult items = {relatedArtists.artists} subtitleType="artist"  />
-                                            
-                                        </div>
-                                    </div>
-                                )}
-
-                                {activeTab === 'Stats' && (
-                                    // Content related to Stats tab
-                                    <div className="content-stats">
-                                        {userStats.length > 0 ? (
-                                         
-                                            <div>
-                                                {/* Render user stats here */}
-                                            </div>
-                                        ) : (
-                                            // If userStats is empty, display a message
-                                            <div>
-                                                <h1 className = "caption profile-altsubcaption pb-3 pt-3">User stats not found for this artist.</h1>
-                                            </div>
-                                        )}
-                                    </div>
                                 )}
                             </div>
-                            
+                            <Link to={artistResults.external_urls.spotify} style={linkStyles}>
+                                <button className = "rate-button" id="loginButton">
+                                    Open on Spotify
+                                </button>
+                            </Link>
                         </div>
-
                     </div>
-                       
-                    
-
-                )}
-            </div>
+    
+                    {/* Profile Body */}
+                    <div className="profile-body" style={{ background: bodyGradient }}>
+                        <div className="profile-body-expand">
+                            {/* Tabs */}
+                            <div className="top-songs top-tabs pb-3 pt-3">
+                                <h1
+                                    className={`top-tab caption profile-subcaption pb-3 ${
+                                        activeTab === 'Overview' ? 'active-profile' : ''
+                                    }`}
+                                    onClick={() => handleTabClick('Overview')}
+                                >
+                                    Overview
+                                </h1>
+                                <h1
+                                    className={`top-tab caption profile-subcaption pb-3 ${
+                                        activeTab === 'Recommended' ? 'active-profile' : ''
+                                    }`}
+                                    onClick={() => handleTabClick('Recommended')}
+                                >
+                                    Recommended
+                                </h1>
+                            
+                            </div>
+    
+                            {/* Tab Content */}
+                            {activeTab === 'Overview' && (
+                                // Content related to Overview tab
+                                <div className="content-overview">
+                                    {/* Popular */}
+                                    <div className="top-songs pb-5 pt-3">
+                                        <h1 className="caption profile-altsubcaption pb-3">Popular</h1>
+                                        <CustomTracklist items={artistTracks.tracks} showTracklistTop={false} />
+                                    </div>
+    
+                                    {/* Discography */}
+                                    <div className="top-songs pb-3">
+                                        <h1 className="caption profile-altsubcaption pb-3">Discography</h1>
+                                        <CustomCardResult items={artistAlbums.items} subtitleType="album-artist" singleRow={true} />
+                                    </div>
+    
+                                    {/* Appears On */}
+                                    <div className="top-songs pb-3">
+                                        <h1 className="caption profile-altsubcaption pb-3">Appears on</h1>
+                                        <CustomCardResult items={appearsOn.items} subtitleType="album-artist" singleRow={true} />
+                                    </div>
+                                </div>
+                            )}
+    
+                            {activeTab === 'Recommended' && (
+                                // Content related to Recommended tab
+                                <div className="content-recommended">
+                                    <div className="top-songs pb-3 pt-3">
+                                        <h1 className="caption profile-altsubcaption pb-3">Fans also like</h1>
+                                        <CustomCardResult items={relatedArtists.artists} subtitleType="artist" />
+                                    </div>
+                                </div>
+                            )}
+    
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
+    
 }
 
 export default ArtistPage;

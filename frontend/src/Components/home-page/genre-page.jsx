@@ -12,6 +12,7 @@ import PlaylistTracklist from "./PlaylistTracklist.jsx"
 import Genres from "./genres.json";
 import GenreIcon from '../Assets/Icons/GenreIcon.png'
 import Loading from "./loading.jsx"
+import NotFound from "./not-found.jsx"
 
 
 import textFit from 'textfit';
@@ -23,7 +24,7 @@ const CLIENT_SECRET = "93799cce40b641bb951a9b6966e3f2c0";
 function GenrePage() {
 
 
-    const [genreResults, setGenreResults] = useState({});
+    const [genreResults, setGenreResults] = useState([]);
     const [accessToken, setAccessToken] = useState("");
     const { genreId } = useParams(); // Get the albumId from the URL
     const spotifyEndpoints = `https://api.spotify.com/v1/recommendations?seed_genres=${genreId}`;
@@ -75,6 +76,7 @@ function GenrePage() {
             // Fetch album data
 
             const genreData = await performSearch(token, spotifyEndpoints);
+            console.log("GENRE RESULTS: ", genreData);
             setGenreResults(genreData);
             console.log(genreData);
 
@@ -143,7 +145,7 @@ function GenrePage() {
             console.error('Error searching:', error);
         }
 
-        return {};
+        return [];
     }
 
     const linkStyles = {
@@ -151,98 +153,75 @@ function GenrePage() {
         color: 'inherit', // Inherit the color from the parent
       };
 
-    return (
+      return (
         <div>
             <div className="page-body">
                 {loading ? (
                     <Loading/>
                 ) : (
-                    <div >
-                        <ColorExtractor
-                            src={GenreIcon}
-                            getColors={handleGetColors}
-                        />
-                        <div className="profile-head" style={{ background: gradientString }}>
-                            <div className="column-left">
-                                <div className="artist-image-container">
-                                    <img src={GenreIcon} className="card-image profile-image mb-3" />
+                    genreResults.tracks.length === 0 ? (
+                        <NotFound/>
+                    ) : (
+                        <div>
+                            <ColorExtractor
+                                src={GenreIcon}
+                                getColors={handleGetColors}
+                            />
+                            <div className="profile-head" style={{ background: gradientString }}>
+                                <div className="column-left">
+                                    <div className="artist-image-container">
+                                        <img src={GenreIcon} className="card-image profile-image mb-3" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="column-right">
-                                <div className = "profile-name" id="profile-name" >
-                                    <h1 className="profile-caption " id = "profile-caption" >
-                                        {genreId.charAt(0).toUpperCase() + genreId.slice(1)} 
-                                    </h1>
-                                </div>
-                                <div>
-                                    <h1 className="caption  type-caption ">Genre</h1>
-                                </div>
-
-                                <div>
+                                <div className="column-right">
+                                    <div className="profile-name" id="profile-name">
+                                        <h1 className="profile-caption" id="profile-caption">
+                                            {genreId.charAt(0).toUpperCase() + genreId.slice(1)}
+                                        </h1>
+                                    </div>
                                     <div>
-                                        
-                                        <div className="genre-list">
-                                       
-                                                <h1 className = "artist-link">
-                                                    
+                                        <h1 className="caption type-caption">Genre</h1>
+                                    </div>
+    
+                                    <div>
+                                        <div>
+                                            <div className="genre-list">
+                                                <h1 className="artist-link">
+                                                    {/* Content to be inserted */}
                                                 </h1>
-                                       
-                                            
+                                            </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-                            
-                        </div>
-
-                        <div className = "profile-body" style ={{background: bodyGradient}}>
-                       
-                            <div className = "profile-body-expand">
-
-                                <div className = "top-songs top-tabs pb-3 pt-3">
-                                    <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Overview' ? 'active-profile' : ''}`} 
-                                        onClick={() => handleTabClick('Overview')}>Overview</h1>
-                                    
-       
-                                </div>
-
-
-
-
-                                     
-
-
-
-                                {activeTab === 'Overview' && (
-                                    // Content related to Overview tab
-                                    <div className="content-overview">
-                                        <div className="caption-div">
-                                            <p className="caption type-caption">Recommended tracks for {genreId}</p>
-                                        </div>
-                                        <CustomCardResult items={genreTracks} subtitleType="track" singleRow = {false}/>
-
-                                        <div className="caption-div">
-                                            <p className="caption type-caption">Recommended albums for {genreId}</p>
-                                        </div>
-                                        <CustomCardResult items={genreTracks} subtitleType="album" singleRow = {false}/>
-
+    
+                            <div className="profile-body" style={{ background: bodyGradient }}>
+                                <div className="profile-body-expand">
+                                    <div className="top-songs top-tabs pb-3 pt-3">
+                                        <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Overview' ? 'active-profile' : ''}`} 
+                                            onClick={() => handleTabClick('Overview')}>Overview</h1>
                                     </div>
-                                )}
-
-                               
+    
+                                    {activeTab === 'Overview' && (
+                                        // Content related to Overview tab
+                                        <div className="content-overview">
+                                            <div className="caption-div">
+                                                <p className="caption type-caption">Recommended tracks for {genreId}</p>
+                                            </div>
+                                            <CustomCardResult items={genreTracks} subtitleType="song" singleRow={false} />
+    
+                                           
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                            
                         </div>
-
-                    </div>
-                       
-                    
-
+                    )
                 )}
             </div>
         </div>
     );
+    
 }
 
 export default GenrePage;

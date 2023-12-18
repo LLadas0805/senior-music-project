@@ -11,7 +11,7 @@ const linkStyles = {
 };
 
 function CardResult({ items, subtitleType, singleRow = false}) {
-  
+  console.log('ITEMS: ', items);
   return (
     <Row className={`${singleRow === true ? '' : ''}`}>
       {items.map((item, i) => (
@@ -29,10 +29,24 @@ function CardResult({ items, subtitleType, singleRow = false}) {
                           subtitleType === "artist" || subtitleType === "album" || subtitleType === "album-artist" || subtitleType === "playlist"
                           ? (
                               item.images && item.images.length > 0
-                                ? (item.images[0]?.url || (item.album.images[0]?.url || UserIcon))
-                                : (item.album.images[0]?.url || UserIcon)
+                                ? (
+                                    item.images[0]?.url || (
+                                      item.album && item.album.images && item.album.images.length > 0
+                                        ? item.album.images[0]?.url || UserIcon
+                                        : UserIcon
+                                    )
+                                  )
+                                : (
+                                    item.album && item.album.images && item.album.images.length > 0
+                                      ? item.album.images[0]?.url || UserIcon
+                                      : UserIcon
+                                  )
                             )
-                          : (item.album.images[0]?.url || UserIcon)
+                          : (
+                              item.album && item.album.images && item.album.images.length > 0
+                                ? item.album.images[0]?.url || UserIcon
+                                : UserIcon
+                            )
                         )
                 }
                 className={`p-3 card-image${(subtitleType === 'artist' || subtitleType === 'user') ? ' artist-image' : ''}`}
@@ -66,6 +80,8 @@ function generateLinkTo(item, subtitleType) {
     return `/user/${item._id}`;
   } else if (subtitleType === 'genre') {
     return `/genre/${item}`;
+  } else if (subtitleType === 'song') {
+    return `/album/${item.album.id}`
   }
   // Handle other cases if needed
   return "/";

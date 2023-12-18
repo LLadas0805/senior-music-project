@@ -1,83 +1,91 @@
-import React, {useEffect, useState} from 'react'
-import {useNavigate, Link} from "react-router-dom"
-import axios from "axios"
+import React, { useState, useEffect } from "react";
 
-import IconLogo from '../Assets/Icons/IconLogo.png'
-import PasswordHide from '../Assets/Icons/PasswordHide.png'
-import PasswordShown from '../Assets/Icons/PasswordShown.png'
-import './review.css'
+import axios from 'axios';
+import { Link } from 'react-router-dom'; 
+
+import './review.css';
 
 
+function Review({albumId}) {
 
-function Review() {
+  console.log(albumId);
+  const [reviewBody, setReviewBody] = useState('');
+  const [score, setScore] = useState('');
+  const [userData, setUserData] = useState(null);
+  const [errorMessage, setErrorMessage]= useState('');
+  
 
-    const history=useNavigate();
-
-
-    const [reviewBody, setReviewBody] = useState('')
-    const [score, setScore] = useState('')
-
-
-
-    async function submit(e){
-        e.preventDefault()
-
-        try {
-
-            await axios.post("http://localhost:3000/review", {
-                score,  reviewBody
-            })
-            .then(res=>{
-              
-            })
-            .catch(e=> {
-               
-            })
-            
-
-        } catch(e) {
-            console.log(e)
-        }
-    }
+ 
 
 
-    return (
-        <div className = 'review-container'>        
-            <form action="POST">
-                <div className="inputs">
-             
-                  
-                    <div className = "input-text">
-                        
-                        <textarea id = "review-score" className = 'review-score' maxLength={3} onChange = {(e)=>{setScore(e.target.value)}} 
-                        placeholder = "0-100" 
-                        rows={1} // Number of visible text lines
-                        cols={5} // Width of the textarea (in characters)
-                        wrap="soft" />
-                        
-                    </div>
-                   
-              
-              
-                   
-                    <div className = "input-text">
-                        <textarea id = "review-score" className = 'review-body' maxLength={2000} onChange = {(e)=>{setScore(e.target.value)}} 
-                        placeholder = "Write your review" 
-                         // Number of visible text lines
-                        cols={100} // Width of the textarea (in characters)
-                        wrap="soft" />
-                    </div>
-               
 
-                
-                </div>
 
-                
-                
-            </form>
+  async function submitScore(e) {
+    e.preventDefault();
+    try {
+
+      await axios.post("http://localhost:3000/review", {
+          albumId, score, reviewBody
+      })
+      .then(res=>{
+          if(res.data==="Invalid score!"){
+              setErrorMessage(res.data)
+          } else if(res.data==="Valid score!"){
+            window.location.reload();
+          } 
+      })
+      .catch(e=> {
+          setErrorMessage("Invalid score!")
+          console.log(e);
+      })
+      
+
+  } catch(e) {
+      console.log(e)
+  }
+  }
+  
+
+
+  return (
+    <div className="review-container mb-3">
+      <form action="POST">
+        <div className="review-inputs">
+          <div className="review-item score">
            
+            <textarea
+              id="review-score"
+              className="review-score"
+              maxLength={3}
+              onChange={(e) => {
+                setScore(e.target.value);
+              }}
+              placeholder="0-100"
+              rows={1}
+              cols={5}
+              wrap="soft"
+            />
+            <button className = 'rate-button' onClick={submitScore}>RATE</button>
+            <p className = 'review-error'>{errorMessage}</p>
+          </div>
+          <div className="review-item revbody">
+            <textarea
+              id="review-body"
+              className="review-body"
+              maxLength={5000}
+              onChange={(e) => {
+                setReviewBody(e.target.value);
+              }}
+              placeholder="Write your review (optional)"
+              cols={100}
+              wrap="soft"
+            />
+            <button className = 'rate-button review-button' onClick={submitScore}>SUBMIT REVIEW</button>
+          </div>
         </div>
-    )
+      </form>
+    </div>
+  );
 }
 
-export default Review
+export default Review;

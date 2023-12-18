@@ -12,6 +12,7 @@ import PlaylistTracklist from "./PlaylistTracklist.jsx"
 import Genres from "./genres.json";
 import GenreIcon from '../Assets/Icons/GenreIcon.png'
 import Loading from "./loading.jsx"
+import NotFound from './not-found.jsx'
 
 import textFit from 'textfit';
 
@@ -20,6 +21,9 @@ const CLIENT_ID = "5d8c84c59ac8435e91aa1c9d5d2e9706";
 const CLIENT_SECRET = "93799cce40b641bb951a9b6966e3f2c0";
 
 function PlaylistPage() {
+
+
+    
 
     const [playlistResults, setPlaylistResults] = useState({});
     const [playlistTracks, setPlaylistTracks] = useState({});
@@ -38,6 +42,8 @@ function PlaylistPage() {
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     };
+
+ 
 
     const handleGetColors = (colors) => {
         // Store the extracted colors in state
@@ -170,7 +176,7 @@ function PlaylistPage() {
             console.error('Error searching:', error);
         }
 
-        return {};
+        return [];
     }
 
     const linkStyles = {
@@ -178,111 +184,85 @@ function PlaylistPage() {
         color: 'inherit', // Inherit the color from the parent
       };
 
-    return (
-        <div>
-            <div className="page-body">
-                {loading ? (
-                    <Loading/>
-                ) : (
-                    <div >
-                        <ColorExtractor
-                            src={playlistResults.images?.[0]?.url || GenreIcon}
-                            getColors={handleGetColors}
-                        />
-                        <div className="profile-head" style={{ background: gradientString }}>
-                            <div className="column-left">
-                                <div className="artist-image-container">
-                                    <img src={playlistResults.images?.[0]?.url || UserIcon} className="card-image profile-image mb-3" />
-                                </div>
+      return (
+        <div className="page-body">
+            {loading ? (
+                <Loading />
+            ) : playlistResults.length === 0 ? (
+                <NotFound />
+            ) : (
+                <div>
+                    <ColorExtractor
+                        src={playlistResults.images?.[0]?.url || GenreIcon}
+                        getColors={handleGetColors}
+                    />
+                    <div className="profile-head" style={{ background: gradientString }}>
+                        <div className="column-left">
+                            <div className="artist-image-container">
+                                <img
+                                    src={playlistResults.images?.[0]?.url || UserIcon}
+                                    className="card-image profile-image mb-3"
+                                />
                             </div>
-                            <div className="column-right">
-                                <div className = "profile-name" id="profile-name" >
-                                    <h1 className="profile-caption " id = "profile-caption" >
-                                        {playlistResults.name} 
-                                    </h1>
-                                </div>
-                                <div>
-                                    <h1 className="caption  type-caption ">{playlistResults.description}</h1>
-                                </div>
-
-                                <div>
-                                    <div>
-                                        
-                                        <div className="genre-list">
-                                       
-                                                <h1 className = "artist-link">
-                                                    {playlistTracks.total} songs, {formatDuration(playlistTracks.items)}
-                                                </h1>
-                                       
-                                            
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            
                         </div>
-
-                        <div className = "profile-body" style ={{background: bodyGradient}}>
-                       
-                            <div className = "profile-body-expand">
-
-                                <div className = "top-songs top-tabs pb-3 pt-3">
-                                    <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Overview' ? 'active-profile' : ''}`} 
-                                        onClick={() => handleTabClick('Overview')}>Tracklist</h1>
-                               
-       
-                                </div>
-
-
-
-
-                                     
-
-
-
-                                {activeTab === 'Overview' && (
-                                    // Content related to Overview tab
-                                    <div className="content-overview">
-                                        <div className = "top-songs pb-5 pt-3">
-                                     
-                                            <PlaylistTracklist items = {playlistTracks.items} showTracklistTop = {true} alternate = {false} />
-                                        
-
-                                        </div>
-
-                                    </div>
-                                )}
-
-                                {activeTab === 'Recommended' && (
-                                    // Content related to Recommended tab
-                                    <div className="content-recommended">
-                                        <div className = "top-songs pb-3 pt-3">
-                                            <h1 className = "caption profile-altsubcaption pb-3">Fans also like</h1>
-                         
-                                            
-                                        </div>
-                                    </div>
-                                )}
-
-                                {activeTab === 'Stats' && (
-                                    // Content related to Stats tab
-                                    <div className="content-stats">
-                                       
-                                    </div>
-                                )}
+                        <div className="column-right">
+                            <div className="profile-name" id="profile-name">
+                                <h1 className="profile-caption" id="profile-caption">
+                                    {playlistResults.name}
+                                </h1>
                             </div>
-                            
-                        </div>
+                            <div>
+                                <h1 className="caption type-caption">
+                                    {playlistResults.description || "No description for this playlist."}
+                                </h1>
+                            </div>
+    
+                            <div className="genre-list">
+                                <h1 className="artist-link">
+                                    {playlistTracks.total} songs, {formatDuration(playlistTracks.items)}
+                                </h1>
+                            </div>
 
+                            <Link to={playlistResults.external_urls.spotify} style={linkStyles}>
+                                <button className = "rate-button" id="loginButton">
+                                    Open on Spotify
+                                </button>
+                            </Link>
+                        </div>
                     </div>
-                       
-                    
-
-                )}
-            </div>
+    
+                    <div className="profile-body" style={{ background: bodyGradient }}>
+                        <div className="profile-body-expand">
+                            <div className="top-songs top-tabs pb-3 pt-3">
+                                <h1
+                                    className={`top-tab caption profile-subcaption pb-3 ${
+                                        activeTab === 'Overview' ? 'active-profile' : ''
+                                    }`}
+                                    onClick={() => handleTabClick('Overview')}
+                                >
+                                    Tracklist
+                                </h1>
+                            </div>
+    
+                            {/* Tab Content */}
+                            {activeTab === 'Overview' && (
+                                <div className="content-overview">
+                                    <div className="top-songs pb-5 pt-3">
+                                        <PlaylistTracklist
+                                            items={playlistTracks.items}
+                                            showTracklistTop={true}
+                                            alternate={false}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
+    
 }
 
 export default PlaylistPage;

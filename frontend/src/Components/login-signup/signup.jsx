@@ -15,6 +15,32 @@ function Signup () {
     const [account, setAccount]=useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
+    const [userData, setUserData] = useState(null);
+
+
+    useEffect(() => {
+
+        
+
+
+        // Make an API call to fetch user data from the backend
+        axios.get("http://localhost:3000/session")
+          .then(response => {
+            // Handle successful response
+            setUserData(response.data); // Assuming the response contains user data
+            if (response.data) {
+                history("/");
+            }
+          })
+          .catch(error => {
+            // Handle error
+            console.error("Error fetching user data:", error);
+        });
+        
+        
+
+
+    }, []);
    
 
     const togglePasswordVisibility = () => {
@@ -62,10 +88,10 @@ function Signup () {
             <div className="header text-center">
                 <div className="logo">
                 <img src={IconLogo} width="100" height="100" alt="" />
-                <div className="logotext">Senior Project</div>
+                <div className="logotext">Senior Project </div>
                 </div>
                 <div className="caption">
-                <div className="text">Sign up for Senior Project.</div>
+                <div className="text">Sign up.</div>
                 </div>
             </div>
             <form action="POST">

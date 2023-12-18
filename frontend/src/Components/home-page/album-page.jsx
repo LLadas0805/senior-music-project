@@ -9,27 +9,36 @@ import { ColorExtractor  } from 'react-color-extractor';
 import chroma from 'chroma-js';
 import CustomCardResult from "./CustomCardResult.jsx";
 import CustomTracklist from "./CustomTracklist.jsx"
+import ReviewResults from "./review-results.jsx"
 import Genres from "./genres.json";
 import GenreIcon from '../Assets/Icons/GenreIcon.png'
 import Loading from "./loading.jsx"
 import Review from './review.jsx'
+import NotFound from "./not-found.jsx"
 
+
+import axios from "axios"
 import textFit from 'textfit';
 
 
 const CLIENT_ID = "5d8c84c59ac8435e91aa1c9d5d2e9706";
 const CLIENT_SECRET = "93799cce40b641bb951a9b6966e3f2c0";
 
+
+
 function AlbumPage() {
+
+    
 
     const [albumResults, setAlbumResults] = useState({});
     const [albumTracks, setAlbumTracks] = useState({});
-    const [userReviews, setUserReviews] = useState([]);
+    const [reviews, setReviews] = useState([]);
     const [accessToken, setAccessToken] = useState("");
     const { albumId } = useParams(); // Get the albumId from the URL
     const spotifyEndpoints = `https://api.spotify.com/v1/albums/${albumId}`;
     const [loading, setLoading] = useState(true);
     const [extractedColors, setExtractedColors] = useState([]);
+    const [userData, setUserData] = useState([]);
   
 
     const [gradientString, setGradientString] = useState('');
@@ -75,6 +84,8 @@ function AlbumPage() {
             // Fetch album data
 
             const albumData = await performSearch(token, spotifyEndpoints);
+
+          
             setAlbumResults(albumData);
             console.log(albumData);
 
@@ -82,13 +93,37 @@ function AlbumPage() {
             setAlbumTracks(albumData.tracks)
             console.log(albumData.tracks);
 
+            try {
+        
+                await axios.post("http://localhost:3000/album-reviews", {
+                    albumId
+                })
+                .then(response => {
+                 
+                    setReviews(response.data)
+                    console.log('REVIEWS: ', reviews)
+                })
+                
+          
+            } catch(e) {
+                console.log(e)
+            }
 
 
+            
     
 
             setLoading(false); // Set loading to false when data is loaded
         }
 
+        axios.get("http://localhost:3000/session")
+        .then(response => {
+          // Handle successful response
+          setUserData(response.data); // Assuming the response contains user data
+        })
+
+       
+        
         fetchData();
         textFit(document.getElementsByClassName('profile-name'));
          
@@ -172,7 +207,7 @@ function AlbumPage() {
             console.error('Error searching:', error);
         }
 
-        return {};
+        return [];
     }
 
     const linkStyles = {
@@ -180,13 +215,15 @@ function AlbumPage() {
         color: 'inherit', // Inherit the color from the parent
       };
 
-    return (
+      return (
         <div>
             <div className="page-body">
                 {loading ? (
-                    <Loading/>
+                    <Loading />
+                ) : albumResults.length === 0 ? (
+                    <NotFound />
                 ) : (
-                    <div >
+                    <div>
                         <ColorExtractor
                             src={albumResults.images?.[0]?.url || GenreIcon}
                             getColors={handleGetColors}
@@ -194,116 +231,142 @@ function AlbumPage() {
                         <div className="profile-head" style={{ background: gradientString }}>
                             <div className="column-left">
                                 <div className="artist-image-container">
-                                    <img src={albumResults.images?.[0]?.url || UserIcon} className="card-image profile-image mb-3" />
+                                    <img
+                                        src={albumResults.images?.[0]?.url || UserIcon}
+                                        className="card-image profile-image mb-3"
+                                    />
                                 </div>
                             </div>
                             <div className="column-right">
-                                <div className = "profile-name" id="profile-name" >
-                                    <h1 className="profile-caption " id = "profile-caption" >
-                                        {albumResults.name} 
+                                <div className="profile-name" id="profile-name">
+                                    <h1 className="profile-caption" id="profile-caption">
+                                        {albumResults.name}
                                     </h1>
                                 </div>
                                 <div>
-                                    <h1 className="caption  type-caption ">{albumResults.album_type.charAt(0).toUpperCase() + albumResults.album_type.slice(1)}</h1>
+                                    <h1 className="caption type-caption">
+                                        {albumResults.album_type.charAt(0).toUpperCase() +
+                                            albumResults.album_type.slice(1)}
+                                    </h1>
                                 </div>
-
+    
                                 <div>
                                     <div>
-                                        
                                         <div className="genre-list">
-                                            <Link to={`/artist/${albumResults.artists[0].uri.substring(15)}`} style={linkStyles}>
-                                                <h1 className = "artist-link">
-                                                    {albumResults.artists.map(artist => artist.name).join(", ")} •  {new Date(albumResults.release_date).getFullYear()} •  {albumResults.total_tracks} songs, {formatDuration(albumResults)}
-                                                </h1>
-                                            </Link>
-                                            
+                                            <h1 className="artist-link">
+                                                {albumResults.artists.map((artist, index) => (
+                                                    <React.Fragment key={index}>
+                                                        {index !== 0 && ", "}
+                                                        <span>
+                                                            <Link
+                                                                to={`/artist/${artist.id}`}
+                                                                style={linkStyles}
+                                                            >
+                                                                {artist.name}
+                                                            </Link>
+                                                        </span>
+                                                    </React.Fragment>
+                                                ))}
+                                                • {new Date(albumResults.release_date).getFullYear()} • {albumResults.total_tracks} songs, {formatDuration(albumResults)}
+                                            </h1>
                                         </div>
+                                        <Link to={albumResults.external_urls.spotify} style={linkStyles}>
+                                            <button className = "rate-button" id="loginButton">
+                                                Open on Spotify
+                                            </button>
+                                        </Link>
                                     </div>
-
                                 </div>
                             </div>
-                            
                         </div>
-
-                        <div className = "profile-body" style ={{background: bodyGradient}}>
-                       
-                            <div className = "profile-body-expand">
-
-                                <div className = "top-songs top-tabs pb-3 pt-3">
+    
+                        <div className="profile-body" style={{ background: bodyGradient }}>
+                            <div className="profile-body-expand">
+                                <div className="top-songs top-tabs pb-3 pt-3">
                                     <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Overview' ? 'active-profile' : ''}`} 
                                         onClick={() => handleTabClick('Overview')}>Tracklist</h1>
                                     <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Review' ? 'active-profile' : ''}`} 
                                         onClick={() => handleTabClick('Review')}>Reviews</h1>
-                                
-                                    <h1 className={`top-tab caption profile-subcaption pb-3 ${activeTab === 'Stats' ? 'active-profile' : ''}`} 
-                                        onClick={() => handleTabClick('Stats')}>Stats</h1>
-       
+                                    
                                 </div>
-
-
-
-
-                                     
-
-
-
+    
                                 {activeTab === 'Overview' && (
                                     // Content related to Overview tab
                                     <div className="content-overview">
-                                        <div className = "top-songs pb-5 pt-3">
-                                     
-                                            <CustomTracklist items = {albumTracks.items} showTracklistTop = {true} alternate = {true} showDiscNumber = {true}/>
-                                        
-
+                                        <div className="top-songs pb-5 pt-3">
+                                            <CustomTracklist
+                                                items={albumTracks.items}
+                                                showTracklistTop={true}
+                                                alternate={true}
+                                                showDiscNumber={true}
+                                            />
                                         </div>
-
                                     </div>
                                 )}
-
+    
                                 {activeTab === 'Recommended' && (
                                     // Content related to Recommended tab
                                     <div className="content-recommended">
-                                        <div className = "top-songs pb-3 pt-3">
-                                            <h1 className = "caption profile-altsubcaption pb-3">Fans also like</h1>
-                         
-                                            
+                                        <div className="top-songs pb-3 pt-3">
+                                            <h1 className="caption profile-altsubcaption pb-3">
+                                                Fans also like
+                                            </h1>
                                         </div>
                                     </div>
                                 )}
-
-                                {activeTab === 'Stats' && (
-                                    // Content related to Stats tab
-                                    <div className="content-stats">
-                                        <h1 className = "caption profile-altsubcaption pb-3">User stats unavailable for this album</h1>
-                                    </div>
-                                )}
-
+    
+                          
+    
                                 {activeTab === 'Review' && (
-                                    // Content related to Stats tab
+                                    // Content related to Review tab
                                     <div>
                                         <div className="content-review">
-                                            <h1 className = "caption profile-altsubcaption pb-3">Rate this album</h1>
+                                            <h1 className="caption profile-altsubcaption pb-3">
+                                                Rate this album
+                                            </h1>
                                         </div>
-                                        <Review/>
-                                    
-                                    
-                                        <div className="content-review">
-                                            <h1 className = "caption profile-altsubcaption pb-3">No reviews have been given to this album</h1>
-                                        </div>
+                                        {userData._id ? (
+                                            <Review albumId={albumId} />
+                                        ) : (
+                                            <p className="artist-link">
+                                                Want to rate this album?{' '}
+                                                <Link to={'/signup'} >
+                                                    <a>Create an account</a>
+                                                    
+                                                </Link>{' '}
+                                                or{' '}
+                                                <Link to={'/login'}>
+                                                    <a>Log in</a>
+                                                </Link>
+                                            </p>
+                                        )}
+    
+                                        
+                                        {reviews.length > 0 ? (
+                                            <div className="content-review">
+                                                <h1 className="caption profile-altsubcaption pb-3">
+                                                    Album ratings
+                                                </h1>
+                                                <ReviewResults reviews={reviews} />
+                                            
+                                            </div>
+                                            
+                                        ) : (
+                                            <p className="caption">
+                                                No ratings available for this album
+                                            </p>
+                                        )}
                                     </div>
                                 )}
                             </div>
-                            
                         </div>
-
                     </div>
-                       
-                    
-
                 )}
             </div>
         </div>
     );
+    
+    
 }
 
 export default AlbumPage;

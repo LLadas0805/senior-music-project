@@ -20,9 +20,63 @@ const newSchema=new mongoose.Schema({
     password:{
         type: String,
         required:true
-    }
+    },
+    token: {
+        type: String,
+        default: '',
+        required:false
+    },
+    following: [
+        {
+            entity_id: { type: mongoose.Schema.Types.ObjectId },
+            entity_type: { type: String, enum: ['user', 'album', 'genre'] }
+        }
+    ]
 })
 
-const collection = mongoose.model("collection", newSchema)
 
-module.exports=collection
+const collection = mongoose.model("collection", newSchema)
+const currentDate = new Date(); // Get the current date and time
+
+
+const reviewSchema = new mongoose.Schema({
+    albumId: {
+        type: String,
+        required: true
+    },
+    userId: {
+        type: String,
+        required: true
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    score: {
+        type: Number,
+        required: true
+    },
+    reviewbody: {
+        type: String,
+        default: '',
+        required: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now, 
+        required: false
+    }
+  
+    // Other fields related to reviews
+});
+
+const reviews = mongoose.model("reviews", reviewSchema);
+
+
+
+
+module.exports={
+    collection,
+    reviews,
+   
+};

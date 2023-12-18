@@ -23,7 +23,8 @@
 }
 
 .header-item {
- 
+  
+  margin-top: 15px;
   display: flex;
   align-items: center; /* Centers contents vertically within each item */
   margin-bottom: 5px; /* Adjust spacing between items */
@@ -123,4 +124,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
+}
+
+.logout-item:hover {
+  cursor: pointer;
+}
+
+
+.logout-item:hover .sidebar-text{
+  
+  color: white;
+}
+
+.logout-item:hover .sidebar-icon {
+  filter: brightness(1.0);
 }

@@ -8,7 +8,7 @@ import SearchIcon from '../Assets/Icons/SearchIcon.png'
 import SearchIconActive from '../Assets/Icons/SearchIconActive.png'
 import ProfileIcon from '../Assets/Icons/ProfileIcon.png'
 import ProfileIconActive from '../Assets/Icons/ProfileIconActive.png'
-import IconLogo from '../Assets/Icons/LogoIcon.png'
+import LogoutIcon from '../Assets/Icons/LogoutIcon.png'
 
 import axios from "axios"
 
@@ -47,7 +47,9 @@ const Sidebar = () => {
     axios.get("http://localhost:3000/session")
       .then(response => {
         // Handle successful response
+        console.log("session", response.data)
         setUserData(response.data); // Assuming the response contains user data
+     
       })
       .catch(error => {
         // Handle error
@@ -94,7 +96,7 @@ const Sidebar = () => {
         <div className = 'header-item'>
                 <div className = 'logo'>
                  
-                    <div className = 'logotext'>Harmony  </div>
+                    <div className = 'logotext'>Senior Project  </div>
                 </div>
         </div>
       
@@ -132,10 +134,11 @@ const Sidebar = () => {
 
       {userData ? ( // Conditionally render user account or login link
         
-        <div className='logout-item'>
-          <div className = "submit-container" >
-                      <button type = "submit" onClick={logout} className = "submit">Log Out</button>
-          </div>
+        <div onClick={logout} className='logout-item'>
+         
+              <img className='sidebar-icon' src={LogoutIcon} />
+              <h1  className='sidebar-text'>Log out</h1>
+        
         </div>
       
         ) : (

@@ -316,26 +316,50 @@ function Search() {
                             {searchType === "all" && (
                                 <>
                                    
-                                    <div className="caption-div">
-                                        <p className="caption">Top Artists</p>
-                                    </div>
-                                    <CustomCardResult items={artists.slice(0, 6)} subtitleType="artist" singleRow = {true} />
-                                    <div className="caption-div">
-                                        <p className="caption">Top Albums</p>
-                                    </div>
-                                    <CustomCardResult items={albums.slice(0, 6)} subtitleType="album" singleRow = {true} />
-                                    <div className="caption-div">
-                                        <p className="caption">Top Songs</p>
-                                    </div>
-                                    <CustomCardResult items={songs.slice(0, 6)} subtitleType="song" singleRow = {true} />
-                                    <div className="caption-div">
-                                        <p className="caption">Top Users</p>
-                                    </div>
-                                    <CustomCardResult items={users.slice(0, 6)} subtitleType="user" singleRow = {true}  />
-                                    <div className="caption-div">
-                                        <p className="caption">Genres & Moods</p>
-                                    </div>
-                                    <CustomCardResult items={genres.slice(0, 6)} subtitleType="genre" singleRow = {true}  />
+                                   {artists.length > 0 && (
+                                        <>
+                                            <div className="caption-div">
+                                                <p className="caption">Top Artists</p>
+                                            </div>
+                                            <CustomCardResult items={artists.slice(0, 6)} subtitleType="artist" singleRow={true} />
+                                        </>
+                                    )}
+
+                                    {albums.length > 0 && (
+                                        <>
+                                            <div className="caption-div">
+                                                <p className="caption">Top Albums</p>
+                                            </div>
+                                            <CustomCardResult items={albums.slice(0, 6)} subtitleType="album" singleRow={true} />
+                                        </>
+                                    )}
+
+                                    {songs.length > 0 && (
+                                        <>
+                                            <div className="caption-div">
+                                                <p className="caption">Top Songs</p>
+                                            </div>
+                                            <CustomCardResult items={songs.slice(0, 6)} subtitleType="song" singleRow={true} />
+                                        </>
+                                    )}
+
+                                    {users.length > 0 && (
+                                        <>
+                                            <div className="caption-div">
+                                                <p className="caption">Top Users</p>
+                                            </div>
+                                            <CustomCardResult items={users.slice(0, 6)} subtitleType="user" singleRow={true} />
+                                        </>
+                                    )}
+
+                                    {genres.length > 0 && (
+                                        <>
+                                            <div className="caption-div">
+                                                <p className="caption">Genres & Moods</p>
+                                            </div>
+                                            <CustomCardResult items={genres.slice(0, 6)} subtitleType="genre" singleRow={true} />
+                                        </>
+                                    )}
                                 </>
                             )}
                             {searchType === "artist" && 

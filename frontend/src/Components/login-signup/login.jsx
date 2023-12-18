@@ -15,18 +15,45 @@ function Login() {
     const [useroremail, setUserOrEmail]=useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
+    const [userData, setUserData] = useState(null);
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
         
     };
 
+
+    useEffect(() => {
+
+        
+
+
+        // Make an API call to fetch user data from the backend
+        axios.get("http://localhost:3000/session")
+          .then(response => {
+            // Handle successful response
+            setUserData(response.data); // Assuming the response contains user data
+            if (response.data) {
+                history("/");
+            }
+          })
+          .catch(error => {
+            // Handle error
+            console.error("Error fetching user data:", error);
+        });
+        
+        
+
+
+    }, []);
+
     async function submit(e){
         e.preventDefault()
 
         try {
 
-            await axios.post("http://localhost:3000/", {
+            await axios.post("http://localhost:3000/login", {
                 useroremail, password
             })
             .then(res=>{
@@ -59,7 +86,7 @@ function Login() {
                     <div className = 'logotext'>Senior Project  </div>
                 </div>
                 <div className = 'caption'>
-                        <div className = 'text'>Log in to Senior Project</div>
+                        <div className = 'text'>Log in</div>
                      
                 </div>
             </div>

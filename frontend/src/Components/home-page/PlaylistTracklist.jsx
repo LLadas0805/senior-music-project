@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 
 function formatDuration(ms) {
@@ -16,6 +17,11 @@ function PlaylistTracklist({
   alternate = false,
 }) {
   
+
+  const linkStyles = {
+    textDecoration: 'none', // Remove underline
+    color: 'inherit', // Inherit the color from the parent
+  };
 
   
 
@@ -71,10 +77,21 @@ function PlaylistTracklist({
                     <div className="name-artist">
                       <span className="song-name">{item.track.name}</span>
                       <span className="artist-name">
-                        {item.track.artists.map((artist) => artist.name).join(", ")}
+                        {item.track.artists.map((artist, index) => (
+                          <React.Fragment key={index}>
+                            {index !== 0 && ", "} {/* Add comma after the first artist */}
+                            <Link to={`/artist/${artist.id}`} style={linkStyles}>
+                              {artist.name}
+                            </Link>
+                          </React.Fragment>
+                        ))}
                       </span>
                     </div>
-                    <span className="album-name">{item.track.album.name}</span>
+                    <span className="album-name">
+                      <Link to={`/album/${item.track.album.id}`} style={linkStyles}>
+                            {item.track.album.name}
+                      </Link>
+                    </span>
                     <span className="song-length">
                       {formatDuration(item.track.duration_ms)}
                     </span>

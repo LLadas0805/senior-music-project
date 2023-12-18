@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import DiscIcon from "../Assets/Icons/discicon.png";
+import { Link } from 'react-router-dom';
 
 function formatDuration(ms) {
   const minutes = Math.floor(ms / 60000);
@@ -9,6 +10,12 @@ function formatDuration(ms) {
 
   return `${minutes}:${formattedSeconds}`;
 }
+
+const linkStyles = {
+  textDecoration: 'none', // Remove underline
+  color: 'inherit', // Inherit the color from the parent
+};
+
 
 function CustomTracklist({
   items,
@@ -44,7 +51,7 @@ function CustomTracklist({
                 <span className="song-name"></span>
                 <span className="artist-name"></span>
               </div>
-              <span className="album-name">Album</span>
+              <span className="album-name"> {alternate !== true ? 'Album' : ''}</span>
               <span className="track-number">Duration</span>
             </div>
           )}
@@ -68,9 +75,20 @@ function CustomTracklist({
                       <div className="name-artist">
                         <span className="song-name">{item.name}</span>
                         <span className="artist-name">
-                          {item.artists.map((artist) => artist.name).join(", ")}
+                          {item.artists.map((artist, index) => (
+                            <React.Fragment key={index}>
+                              {index !== 0 && ", "} {/* Add comma after the first artist */}
+                              <Link to={`/artist/${artist.id}`} style={linkStyles}>
+                                {artist.name}
+                              </Link>
+                            </React.Fragment>
+                          ))}
+                        
                         </span>
                       </div>
+                      <span className="album-name">
+                      
+                      </span>
                       <span className="song-length">
                         {formatDuration(item.duration_ms)}
                       </span>
@@ -89,10 +107,21 @@ function CustomTracklist({
                       <div className="name-artist">
                         <span className="song-name">{item.name}</span>
                         <span className="artist-name">
-                          {item.artists.map((artist) => artist.name).join(", ")}
+                          {item.artists.map((artist, index) => (
+                              <React.Fragment key={index}>
+                                {index !== 0 && ", "} {/* Add comma after the first artist */}
+                                <Link to={`/artist/${artist.id}`} style={linkStyles}>
+                                  {artist.name}
+                                </Link>
+                              </React.Fragment>
+                          ))}
                         </span>
                       </div>
-                      <span className="album-name">{item.album.name}</span>
+                      <span className="album-name">
+                        <Link to={`/album/${item.album.id}`} style={linkStyles}>
+                            {item.album.name}
+                        </Link>
+                      </span>
                       <span className="song-length">
                         {formatDuration(item.duration_ms)}
                       </span>

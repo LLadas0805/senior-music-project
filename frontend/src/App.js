@@ -10,6 +10,8 @@ import UserPage from './Components/home-page/user-page';
 import Sidebar from './Components/home-page/sidebar'; 
 import Home from './Components/home-page/home'
 import GenrePage from './Components/home-page/genre-page'
+import NotFound from './Components/home-page/not-found'
+
 
 import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom"; 
 
@@ -32,7 +34,12 @@ function App() {
           <Route path="/album/:albumId" element={<AlbumPage/>} />
           <Route path="/playlist/:playlistId" element={<PlaylistPage/>} />
           <Route path="/user/:userId" element={<UserPage/>} />
+        
           <Route path="/genre/:genreId" element={<GenrePage/>} />
+
+          {/* Not Found Route */}
+          <Route path='*' element={<NotFound />} />
+
         </Routes>
         </div>
         
