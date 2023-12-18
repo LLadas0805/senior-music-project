@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.8a345597.css",
+    "main.js": "/static/js/main.4a3307bc.js",
+    "static/js/89.857f8023.chunk.js": "/static/js/89.857f8023.chunk.js",
+    "static/media/UserIcon.png": "/static/media/UserIcon.aed44ff331cde749171f.png",
+    "static/media/GenreIcon.png": "/static/media/GenreIcon.b8ad4ed6ac4044e685ae.png",
+    "static/media/wallpaper.jpg": "/static/media/wallpaper.35cfb25e695672482666.jpg",
+    "static/media/LogoIcon.png": "/static/media/LogoIcon.c562ca23e5aa3c9509b0.png",
+    "static/media/UserProfileIcon.png": "/static/media/UserProfileIcon.a8f36cc0d47ff4066b32.png",
+    "static/media/IconLogo.png": "/static/media/IconLogo.30a636d711b78887a94d.png",
+    "static/media/PasswordHide.png": "/static/media/PasswordHide.dd114e49feb8d89bb98e.png",
+    "static/media/SearchIconActive.png": "/static/media/SearchIconActive.48f235f553a000b44bf9.png",
+    "static/media/PasswordShown.png": "/static/media/PasswordShown.dbd350f344212781e8cb.png",
+    "static/media/SearchIcon.png": "/static/media/SearchIcon.7b21ea32758d9a24d2a8.png",
+    "static/media/Frame 6.png": "/static/media/Frame 6.587ec7770536a4c801ac.png",
+    "static/media/ProfileIcon.png": "/static/media/ProfileIcon.7494e2f6201b4cef8d33.png",
+    "static/media/HomeIcon.png": "/static/media/HomeIcon.4d17150247bf0bb42c24.png",
+    "static/media/ProfileIconActive.png": "/static/media/ProfileIconActive.18cb28ddc078ba9d01c8.png",
+    "static/media/HomeIconActive.png": "/static/media/HomeIconActive.042714132c7239774cd4.png",
+    "static/media/discicon.png": "/static/media/discicon.dc19e1a61ddbb3f23ffe.png",
+    "index.html": "/index.html",
+    "main.8a345597.css.map": "/static/css/main.8a345597.css.map",
+    "main.4a3307bc.js.map": "/static/js/main.4a3307bc.js.map",
+    "89.857f8023.chunk.js.map": "/static/js/89.857f8023.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8a345597.css",
+    "static/js/main.4a3307bc.js"
+  ]
+}

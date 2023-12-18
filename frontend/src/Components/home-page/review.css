@@ -1,0 +1,32 @@
+.review-container {
+    background-color: #2f2c369d;
+    box-shadow: 0px 0px 7px 7px rgba(0, 0, 0, 0.185);
+    border-radius: 10px;
+    display: inline-flex;
+    flex-direction: row;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.input-text textarea {
+    width: 100%; /* Make the textarea width 100% of the div */
+    max-height: 700px;
+    
+   
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  
+  }
+
+  .review-score {
+    resize: none; /* Allow vertical resizing */
+    min-height: 40px;
+    max-height: 40px;
+    text-align: center;
+
+  }
+
+  .review-body {
+    min-height: 128px;
+    resize: vertical; /* Allow vertical resizing */
+
+  }
