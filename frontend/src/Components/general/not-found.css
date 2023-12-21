@@ -1,0 +1,17 @@
+.not-found {
+    position: fixed; /* Position is relative to the parent */
+    top: 50%; /* Placed at 50% from the top of screen */
+    left: 55%; /* Placed at 50% from the left */
+    transform: translate(-50%, -50%); /* Centered the spinner */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+}
+    
+
+.not-found-caption {
+    text-align: center;
+    color: white;
+    font-weight: 700px;
+}

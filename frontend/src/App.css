@@ -1,18 +1,22 @@
+/* General styling for the main application container */
 .App {
   text-align: center;
 }
 
+/* Styles for the application logo */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
+/* Conditionally apply a spinning animation to the logo if the user prefers reduced motion */
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
+/* Styles for the main application header */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,10 +28,12 @@
   color: white;
 }
 
+/* Styles for links within the application header */
 .App-link {
   color: #61dafb;
 }
 
+/* Define the animation for the spinning logo */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -37,23 +43,25 @@
   }
 }
 
+/* Set a flexible layout for the main application content */
 .app {
   display: flex;
 }
 
+/* Styles for the sidebar element */
 .sidebar {
   width: 250px;
   height: 100vh;
   background-color: #f2f2f2;
-  box-shadow: 10px -10px 15px -5px rgba(0, 0, 0, 0.50); /* Adjust the values as needed */  
+  box-shadow: 10px -10px 15px -5px rgba(0, 0, 0, 0.50); 
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999; /* Set a higher value for z-index */
+  z-index: 999; 
 }
 
+/* Styles for the main content area */
 .main-content {
- 
   flex: 1;
   padding-left: 20px;
   margin-left: 230px;

@@ -1,0 +1,22 @@
+/* Styles for the article card container */
+.article-card {
+    background-color: #2f2c369d;
+    box-shadow: 0px 0px 7px 7px rgba(0, 0, 0, 0.185);
+    transition: ease 300ms;
+  }
+  
+  /* Add a hover effect to the article card */
+  .article-card:hover {
+    background-color: #4e4658;
+  }
+  
+  /* Styles for the article title */
+  .article-title {
+    color: white;
+  }
+  
+  /* Styles for the article image */
+  .article-image {
+    border-radius: 10px;
+  }
+  
