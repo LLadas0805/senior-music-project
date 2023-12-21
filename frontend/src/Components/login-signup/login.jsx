@@ -60,10 +60,8 @@ function Login() {
                 if(res.data==="exist"){
                     history("/", {state:{id:useroremail}})
                     window.location.reload();
-                } else if(res.data==="not exist"){
-                    alert("User is not signed up")
-                } else if(res.data==="incorrect"){
-                    alert("Wrong Credentials")
+                } else {
+                    alert(res.data);
                 }
             })
             .catch(e=> {
@@ -133,7 +131,7 @@ function Login() {
             </form>
             <div className = "have-account">
                 <p> 
-                    Don't have an account? <Link to={"/signup"}>Sign up for Harmony </Link>
+                    Don't have an account? <Link to={"/signup"}>Sign up </Link>
                 </p>
                 
                 

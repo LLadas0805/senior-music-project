@@ -2,15 +2,15 @@ import React from "react";
 import './App.css';
 import Signup from './Components/login-signup/signup';
 import Login from './Components/login-signup/login';
-import Search from './Components/home-page/search';
-import ArtistPage from './Components/home-page/artist-page';
-import AlbumPage from './Components/home-page/album-page';
-import PlaylistPage from './Components/home-page/playlist-page';
-import UserPage from './Components/home-page/user-page';
+import Search from './Components/search-page/search';
+import ArtistPage from './Components/profile-page/artist-page';
+import AlbumPage from './Components/profile-page/album-page';
+import PlaylistPage from './Components/profile-page/playlist-page';
+import UserPage from './Components/profile-page/user-page';
 import Sidebar from './Components/home-page/sidebar'; 
 import Home from './Components/home-page/home'
-import GenrePage from './Components/home-page/genre-page'
-import NotFound from './Components/home-page/not-found'
+import GenrePage from './Components/profile-page/genre-page'
+import NotFound from './Components/misc-page/not-found'
 
 
 import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom"; 

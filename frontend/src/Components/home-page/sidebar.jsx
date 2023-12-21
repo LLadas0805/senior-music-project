@@ -9,10 +9,8 @@ import SearchIconActive from '../Assets/Icons/SearchIconActive.png'
 import ProfileIcon from '../Assets/Icons/ProfileIcon.png'
 import ProfileIconActive from '../Assets/Icons/ProfileIconActive.png'
 import LogoutIcon from '../Assets/Icons/LogoutIcon.png'
-
 import axios from "axios"
 
-import wallpaper from '../Assets/Icons/wallpaper.jpg'
 
 const linkStyles = {
   textDecoration: 'none', // Remove underline
@@ -21,10 +19,7 @@ const linkStyles = {
 
 const Sidebar = () => {
   const [userData, setUserData] = useState(null);
-
- 
   const location = useLocation(); // Get the current URL location
-  const navigate = useNavigate(); // Access the history object for navigation
   
  
 

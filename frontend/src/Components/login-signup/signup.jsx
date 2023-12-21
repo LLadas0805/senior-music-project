@@ -59,16 +59,14 @@ function Signup () {
                 user, account, password
             })
             .then(res=>{
-                if(res.data==="exist"){
-                    alert("User already exists")
+                if(res.data !== "not exist"){
+                    alert(res.data)
                     
-                } else if(res.data==="not exist"){
-                    console.log("Hello")
+                } else {
+                    console.log("signing up")
                     history("/", {state:{id:user}})
                     window.location.reload();
-                } else if (res.data === "invalid password") {
-                    alert("Please make sure password is at least 8 characters and has one special character and number!");
-                }
+                } 
             })
             .catch(e=> {
                 alert("Wrong details")
@@ -93,6 +91,19 @@ function Signup () {
                 <div className="caption">
                 <div className="text">Sign up.</div>
                 </div>
+            </div>
+            <div className = "header">
+                <label htmlFor="username">Account and user name requirements</label>
+                <ul className = "list">
+                    <li>Minimum of 3 characters, maximum of 32</li>
+                    <li>Account name needs to be unique while display name does not</li>
+                </ul>
+                <label htmlFor="password">Password requirements</label>
+                <ul className = "list">
+                    <li>Minimum of 8 characters, maximum of 32</li>
+                    <li>At least one uppercase letter</li>
+                    <li>At least one digit and special character</li>
+                </ul>
             </div>
             <form action="POST">
                 <div className="inputs">

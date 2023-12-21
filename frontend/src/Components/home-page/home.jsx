@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CustomCardResult from "./CustomCardResult.jsx";
-import Loading from "./loading.jsx"
+import CustomCardResult from "../../card-lists/CustomCardResult.jsx";
+import Loading from "../../misc-page/loading.jsx"
 import './home.css'
 import axios from "axios"
-import Genres from "./genres.json";
-import PitchforkArticles from './articles.jsx'; // Adjust the path accordingly
-import UserReviewResults from "./user-review-results.jsx"
+import Genres from "../../search-page/genres.json";
+import PitchforkArticles from '../../card-lists/articles.jsx'; // Adjust the path accordingly
+import UserReviewResults from "../../reviews/user-review-results.jsx"
 
 
 const CLIENT_ID = "5d8c84c59ac8435e91aa1c9d5d2e9706";
@@ -202,7 +201,7 @@ function Home() {
                     {userData ? (
                         <p className="caption type-caption mb-3">Welcome {userData.username}!</p>
                         ) : (
-                        <p className="caption type-caption mb-3">Hello, welcome to Harmony!</p>
+                        <p className="caption type-caption mb-3">Hello, welcome to my Senior Project!</p>
                     )}
                     </div>
 

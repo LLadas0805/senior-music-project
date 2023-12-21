@@ -27,6 +27,7 @@ body {
 .header {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 9px;
     width: 100%;
@@ -313,4 +314,8 @@ label {
     color: rgb(235, 79, 79);
     font-size: 13px;
     font-weight: 600;
+}
+
+.list {
+    color: white;
 }
